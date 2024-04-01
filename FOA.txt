@@ -1,0 +1,500 @@
+Prac1:Program to mulƟply two matrices using nested loops
+Code:
+// Program to multiply two matrices using nested loop
+# 3x3 matrix
+X = [[12,7,3],
+    [4 ,5,6],
+    [7 ,8,9]]
+for i in range(len(X)):
+     print (X[i])
+# 3x4 matrix
+Y = [[5,8,1,2],
+    [6,7,3,0],
+    [4,5,9,1]]
+for i in range(len(Y)):
+     print (Y[i])
+# result is 3x4
+result = [[0,0,0,0],
+         [0,0,0,0],
+         [0,0,0,0]]
+
+# iterate through rows of X
+for i in range(len(X)):
+   # iterate through columns of Y
+   for j in range(len(Y[0])):
+       # iterate through rows of Y
+       for k in range(len(Y)):
+           result[i][j] += X[i][k] * Y[k][j]
+
+for r in result:
+   print(r)
+
+Prac2:Write Python program to sort n names using Quick sort algorithm. Discuss the complexity 
+of algorithm used.
+Code:
+//Prac2_Question1
+def quicksort(x):
+    if len(x) < 2:
+        return x
+    else:
+        pivot = x[0]
+        less = [i for i in x[1:] if i <= pivot]
+        greater = [i for i in x[1:] if i > pivot]
+        return quicksort(less) + [pivot] + quicksort(greater)
+
+alist = [54, 26, 93, 17, 77, 31, 44, 55, 20]
+print(quicksort(alist))
+#Complexity Analysis:
+Best Case: Omega (n log n)
+Worst Case: O (n^2)
+Average Case: Theta (n log n)
+
+//Prac2_question2
+def quicksort(mylist):
+    Quicksort(mylist, 0, len(mylist)-1)
+
+def Quicksort(mylist, i, j):
+    if i < j:
+        q = partition(mylist, i, j)
+        Quicksort(mylist, i, q-1)
+        Quicksort(mylist, q+1, j)
+
+def partition(mylist, i, j):
+    pivot_element = mylist[i]
+    left_val = i + 1
+    right_val = j
+    done = False
+    
+    while not done:
+        while left_val <= right_val and mylist[left_val] <= pivot_element:
+            left_val += 1
+        while mylist[right_val] >= pivot_element and right_val >= left_val:
+            right_val -= 1
+        
+        if right_val < left_val:
+            done = True
+        else:
+            temp = mylist[left_val]
+            mylist[left_val] = mylist[right_val]
+            mylist[right_val] = temp
+            
+    temp = mylist[i]
+    mylist[i] = mylist[right_val]
+    mylist[right_val] = temp
+    
+    return right_val
+
+mylist = ['prakash', 'akash', 'ashish', 'praveen', 'tarik']
+print("Before applying quicksort:", mylist)
+quicksort(mylist)
+print("After applying quicksort:", mylist)
+
+
+#Complexity Analysis:
+Best Case: Omega (n log n)
+Worst Case: O (n^2)
+Average Case: Theta (n log n)
+
+Practical3:Write a python program to implement merge sort and find the time 
+complexity.
+Code:
+//
+def mergeSort(nlist):
+    print("Splitting", nlist)
+    
+    if len(nlist) > 1:
+        mid = len(nlist) // 2
+        lefthalf = nlist[:mid]
+        righthalf = nlist[mid:]
+
+        mergeSort(lefthalf)
+        mergeSort(righthalf)
+
+        i = j = k = 0
+        
+        while i < len(lefthalf) and j < len(righthalf):
+            if lefthalf[i] < righthalf[j]:
+                nlist[k] = lefthalf[i]
+                i += 1
+            else:
+                nlist[k] = righthalf[j]
+                j += 1
+            k += 1
+
+        while i < len(lefthalf):
+            nlist[k] = lefthalf[i]
+            i += 1
+            k += 1
+
+        while j < len(righthalf):
+            nlist[k] = righthalf[j]
+            j += 1
+            k += 1
+
+        print("Merging", nlist)
+
+nlist = [14, 46, 43, 27, 57, 41, 45, 21, 70]
+mergeSort(nlist)
+print("Sorted list:", nlist)
+
+#Complexity Analysis of Merge Sort 
+Worst case Time Complexity: O(n log n) 
+Average case Time Complexity: O(n log n) 
+Best case Time Complexity: O(n log n) 
+#Space Complexity: O(n) 
+
+Practical4:Write Python Program for inserting an element into binary tree. 
+Code:
+//
+class Node:
+    def __init__(self, data):
+        self.left = None
+        self.right = None
+        self.data = data
+
+    def insert(self, data):
+        if self.data:
+            if data < self.data:
+                if self.left is None:
+                    self.left = Node(data)
+                else:
+                    self.left.insert(data)
+            elif data > self.data:
+                if self.right is None:
+                    self.right = Node(data)
+                else:
+                    self.right.insert(data)
+        else:
+            self.data = data
+
+    def PrintTree(self):
+        if self.left:
+            self.left.PrintTree()
+        print(self.data)
+        if self.right:
+            self.right.PrintTree()
+
+# Create the root node and insert some data
+root = Node(12)
+root.insert(6)
+root.insert(14)
+root.insert(3)
+
+# Print the tree
+root.PrintTree()
+
+Practical5:Write Python program for deleting an element (assuming data is given) from binary tree.
+Code:
+//
+class TreeNode:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+def inorder_traversal(root):
+    if root:
+        inorder_traversal(root.left)
+        print(root.val, end=' ')
+        inorder_traversal(root.right)
+
+def delete_node(root, key):
+    if not root:
+        return root
+    
+    if key < root.val:
+        root.left = delete_node(root.left, key)
+    elif key > root.val:
+        root.right = delete_node(root.right, key)
+    else:
+        if root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        
+        root.val = find_min_value(root.right)
+        root.right = delete_node(root.right, root.val)
+    
+    return root
+
+def find_min_value(root):
+    current = root
+    while current.left is not None:
+        current = current.left
+    return current.val
+
+# Example usage
+if __name__ == "__main__":
+    root = TreeNode(50)
+    root.left = TreeNode(30)
+    root.right = TreeNode(70)
+    root.left.left = TreeNode(20)
+    root.left.right = TreeNode(40)
+    root.right.left = TreeNode(60)
+    root.right.right = TreeNode(80)
+    
+    print("Original Tree:")
+    inorder_traversal(root)
+    
+    key_to_delete = 20
+    root = delete_node(root, key_to_delete)
+    
+    print("\nTree after deleting node with value", key_to_delete, ":")
+    inorder_traversal(root)
+
+Practical6:Write Python program for checking whether a given graph G has simple path from source s 
+to destination d. Assume the graph G is represented using adjacent matrix. 
+Code:
+//
+from collections import defaultdict
+
+class Graph:
+    def __init__(self):
+        self.graph = defaultdict(list)
+
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+
+    def DFSUtil(self, v, visited):
+        visited[v] = True
+        print(v, end=' ')
+        for i in self.graph[v]:
+            if not visited[i]:
+                self.DFSUtil(i, visited)
+
+    def DFS(self, v):
+        visited = [False] * (len(self.graph))
+        self.DFSUtil(v, visited)
+
+# Example usage
+if __name__ == "__main__":
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(1, 2)
+    g.addEdge(0, 6)
+    g.addEdge(0, 3)
+    g.addEdge(0, 5)
+    g.addEdge(3, 4)
+    
+    print("Following is DFS from (Starting from vertex 1):")
+    g.DFS(1)
+
+Practical7:Write Python program for finding the smallest and largest elements in an array A of size n 
+using Selection algorithm.
+Code:
+//
+def kLargest(arr, k):
+    arr.sort(reverse=True)
+    for i in range(k):
+        print("Largest element using selection algorithm is", arr[i])
+
+def kSmallest(arr, k):
+    arr.sort(reverse=False)
+    for i in range(k):
+        print("Smallest element using selection algorithm is", arr[i])
+
+# Example usage
+if __name__ == "__main__":
+    arr = [1, 23, 54, 67, 45]
+    k = 1
+    print("Original array:", arr)
+    kLargest(arr, k)
+    kSmallest(arr, k)
+
+
+Practical8:Write Python program for finding the second largest element in an array A of size n using 
+Tournament Method. 
+Code:
+//
+def getSecondHighest(b):
+    hi = mid = lo = float('-inf')
+    
+    for i in range(len(b)):
+        x = b[i]
+        
+        if x > hi:
+            lo = mid
+            mid = hi
+            hi = x
+        elif x < hi and x > mid:
+            lo = mid
+            mid = x
+        elif x < lo:
+            lo = x
+            
+    return mid
+
+if __name__ == "__main__":
+    print("Enter size of an array:")
+    s = int(input())
+    
+    i = 0
+    b = []
+    
+    print("Enter array elements:")
+    while i < s:
+        b.append(int(input()))
+        i += 1
+        
+    print("Original array:", b)
+    
+    second_largest = getSecondHighest(b)
+    print("Second largest element in the given array:", second_largest)
+
+
+Practical9:Write Python program for implementing Huffman Coding Algorithm. Discuss the 
+complexity of algorithm. 
+Code:
+//
+#Practical9
+import heapq
+from collections import defaultdict, Counter
+
+class Node:
+    def __init__(self, char, frequency):
+        self.char = char
+        self.frequency = frequency
+        self.left = None
+        self.right = None
+
+    def __lt__(self, other):
+        return self.frequency < other.frequency
+
+def build_huffman_tree(data):
+    heap = [Node(char, freq) for char, freq in Counter(data).items()]
+    heapq.heapify(heap)
+
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+
+        internal_node = Node(None, left.frequency + right.frequency)
+        internal_node.left = left
+        internal_node.right = right
+
+        heapq.heappush(heap, internal_node)
+
+    return heap[0]
+
+def build_huffman_codes(node, current_code="", codes=None):
+    if codes is None:
+        codes = {}
+
+    if node is not None:
+        if node.char is not None:
+            codes[node.char] = current_code
+        build_huffman_codes(node.left, current_code + "0", codes)
+        build_huffman_codes(node.right, current_code + "1", codes)
+
+    return codes
+
+def huffman_compress(data):
+    if not data:
+        return "", {}
+
+    root = build_huffman_tree(data)
+    codes = build_huffman_codes(root)
+
+    compressed_data = "".join(codes[char] for char in data)
+    return compressed_data, codes
+
+def huffman_decompress(compressed_data, codes):
+    if not compressed_data:
+        return ""
+
+    reverse_codes = {code: char for char, code in codes.items()}
+
+    current_code = ""
+    decompressed_data = ""
+    for bit in compressed_data:
+        current_code += bit
+        if current_code in reverse_codes:
+            decompressed_data += reverse_codes[current_code]
+            current_code = ""
+
+    return decompressed_data  
+
+# Example usage
+data = "Algorithms is Fun"
+compressed_data, codes = huffman_compress(data)
+print(f"Original data: {data}")
+print(f"Compressed data: {compressed_data}")
+print(f"Huffman codes: {codes}")
+
+decompressed_data = huffman_decompress(compressed_data, codes)
+print(f"Decompressed data: {decompressed_data}")
+
+
+Practical10:Write a python program to implement Strassens Matrix Multiplication. 
+Code:
+//
+def strassen_matrix_multiply(A, B):
+    if len(A) == 1:
+        return [[A[0][0] * B[0][0]]]
+
+    size = len(A)
+    half_size = size // 2
+
+    # Split matrices into quadrants
+    A11 = [row[:half_size] for row in A[:half_size]]
+    A12 = [row[half_size:] for row in A[:half_size]]
+    A21 = [row[:half_size] for row in A[half_size:]]
+    A22 = [row[half_size:] for row in A[half_size:]]
+
+    B11 = [row[:half_size] for row in B[:half_size]]
+    B12 = [row[half_size:] for row in B[:half_size]]
+    B21 = [row[:half_size] for row in B[half_size:]]
+    B22 = [row[half_size:] for row in B[half_size:]]
+
+    # Recursive matrix multiplication
+    P1 = strassen_matrix_multiply(A11, subtract_matrices(B12, B22))
+    P2 = strassen_matrix_multiply(add_matrices(A11, A12), B22)
+    P3 = strassen_matrix_multiply(add_matrices(A21, A22), B11)
+    P4 = strassen_matrix_multiply(A22, subtract_matrices(B21, B11))
+    P5 = strassen_matrix_multiply(add_matrices(A11, A22), add_matrices(B11, B22))
+    P6 = strassen_matrix_multiply(subtract_matrices(A12, A22), add_matrices(B21, B22))
+    P7 = strassen_matrix_multiply(subtract_matrices(A11, A21), add_matrices(B11, B12))
+
+    # Calculate result matrices
+    C11 = add_matrices(subtract_matrices(add_matrices(P5, P4), P2), P6)
+    C12 = add_matrices(P1, P2)
+    C21 = add_matrices(P3, P4)
+    C22 = subtract_matrices(subtract_matrices(add_matrices(P5, P1), P3), P7)
+
+    # Combine result matrices
+    result = [[0] * size for _ in range(size)]
+    for i in range(half_size):
+        result[i][:half_size] = C11[i] + C12[i]
+        result[i][half_size:] = C11[i] + C12[i]
+        result[i + half_size][:half_size] = C21[i] + C22[i]
+        result[i + half_size][half_size:] = C21[i] + C22[i]
+
+    return result
+
+
+def add_matrices(A, B):
+    return [[A[i][j] + B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
+
+
+def subtract_matrices(A, B):
+    return [[A[i][j] - B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
+
+
+# Example usage
+A = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+
+B = [
+    [17, 18, 19, 20],
+    [21, 22, 23, 24],
+    [25, 26, 27, 28],
+    [29, 30, 31, 32]
+]
+
+result = strassen_matrix_multiply(A, B)
+for row in result:
+    print(row) 
