@@ -419,6 +419,81 @@ public class Practical4a extends HttpServlet {
     }
 
 }
+//PracticalFibonacci
+Aim:To calculate fibonacci sequence using servlet
+Code:
+#Create a java web application named Fibonacci then under source packages create a Fibonacci.java file.
+1]index.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+       <h2>Calculate Fibonacci Number</h2>
+
+<form action="Fibonacci" method="get">
+    Enter a number (n): <input type="number" name="n" required>
+    <input type="submit" value="Calculate">
+</form>
+    </body>
+</html>
+2]Fibonacci.java
+package Fibonacci;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/fibonacci")
+public class Fibonacci extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int n = Integer.parseInt(request.getParameter("n"));
+
+        PrintWriter out = response.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Fibonacci Result</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h2>Fibonacci Result</h2>");
+        
+        out.println("<p>Fibonacci Sequence up to " + n + ":</p>");
+        out.println("<ul>");
+        
+        int fib = 0;
+        int prevFib = 1;
+        
+        for (int i = 0; i <= n; i++) {
+            out.println("<li>Fibonacci(" + i + ") = " + fib + "</li>");
+            int temp = fib;
+            fib += prevFib;
+            prevFib = temp;
+        }
+        
+        out.println("</ul>");
+        out.println("<p>Fibonacci(" + n + ") = " + prevFib + "</p>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
+
 
 //Practical 4b: 
 Aim: calculate Net salary 
