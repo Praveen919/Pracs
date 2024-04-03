@@ -1,0 +1,905 @@
+Indications("// means start of new prac" and "# means instruction for that prac")
+//Practical1a: 
+Aim: Write a java swing program to demonstrate the use of basic swing 
+component(JLabel,JTextField,JComboBox,JRadioButton,JButton etc). 
+Code: 
+#Create a java application
+package prac1a;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+
+public class Prac1a extends JFrame implements ActionListener,ItemListener{
+
+    JLabel l1,l2,l3;
+    JTextField t1,t2;
+    JComboBox jcb;
+    JButton b1,b2;
+    String s="";
+    Prac1a(){
+        l1=new JLabel("Enter Number:");
+        l2=new JLabel("Choose");
+        l3 =new JLabel("Result");
+        t1=new JTextField(20);
+        t2=new JTextField(20);
+        jcb=new JComboBox();
+        b1=new JButton("Calculate");
+        b2=new JButton("Clear");
+        jcb.addItem("Square");
+        jcb.addItem("Cube");
+        Container cp =getContentPane();
+        cp.setLayout(new FlowLayout());
+        cp.add(l1);
+        cp.add(t1);
+        cp.add(l2);
+        cp.add(jcb);
+        cp.add(l3);
+        cp.add(t2);
+        cp.add(b1);
+        cp.add(b2);
+        jcb.addItemListener(this);
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        setSize(500,500);
+        setVisible(true);
+    }
+    public void itemStateChanged(ItemEvent ie)
+    {
+        s=(String) ie.getItem();
+    }
+ 
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==b1){
+            int x=Integer.parseInt(t1.getText());
+            int y;
+            if (s.equals("Square"))
+                y=x*x;
+            else 
+                y=x*x*x;
+            t2.setText(y+"");
+ 
+        }
+        else{
+            t1.setText("");
+            t2.setText("");
+            t1.requestFocus();
+        }
+    }
+    public static void main(String[] args) {
+        new Prac1a();
+    }
+}
+
+
+//Practical1b: 
+Aim: Write a java program to perform login operations. 
+Code: 
+#Create a java application
+package prac1b;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Prac1b extends JFrame implements ActionListener {
+    JPanel panel;
+    JLabel l1,l2;
+    JTextField t1,t2;
+    JButton b1,b2;
+    Prac1b()
+    {
+        l1= new JLabel("Username");
+        l2= new JLabel("Password");
+        t1=new JTextField(20);
+        t2=new JTextField(20);
+        b1= new JButton("Submit");
+        b2= new JButton("Clear");
+        panel=new JPanel(new GridLayout(3,1));
+        panel.add(l1);
+        panel.add(t1);
+        panel.add(l2);
+        panel.add(t2);
+        panel.add(b1);
+        panel.add(b2);
+        add(panel,BorderLayout.CENTER);
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        setSize(200,200);
+        setVisible(true);
+        setTitle("LoginForm");
+    }
+    public void actionPerformed(ActionEvent ae)
+    {
+        if(ae.getSource()==b1){
+            String value1 = t1.getText();
+            String value2 = t2.getText();
+            if(value1.equals("Praveen")&&value2.equals("Admin123"))
+            {
+                System.out.println("Login Successfull");
+            }
+            else
+            {
+                System.out.println("Login Unsuccessfull");
+            }
+        }
+        else{
+            t1.setText("");
+            t2.setText("");
+            t1.requestFocus();
+        }
+    }
+ 
+    
+    public static void main(String[] args) {
+        new Prac1b();
+    }
+}
+
+//Practical 2: 
+Aim: Write java swing program to demonstrate complex swing components 
+(JTable,JScrollPane,JMenu). 
+Code: 
+#Create a java application
+package prac2;
+import javax.swing.*;
+import java.awt.event.*;
+class StudentDetails
+{
+    JFrame f;
+    StudentDetails(){
+    f=new JFrame();
+    String data[][]={{"101","Amit","670000"},
+        {"102","Jai","780000"},
+        {"101","Sachin","700000"}
+    };
+    String column[]= {"ID","NAME","SALARY"};
+    JTable jt= new JTable(data,column);
+    jt.setBounds(30,40,200,300);
+    JScrollPane sp=new JScrollPane(jt);
+    f.add(sp);
+    f.setSize(300,400);
+    f.setVisible(true);
+    }
+    }
+class SQualifications
+{
+    JFrame f;
+    SQualifications(){
+        f = new JFrame();
+        String data[][]= { {"101","Amit","BSc CS"},
+            {"102","Jai","MSc CS"},
+             {"101","Sachin","12th Pass"}};
+    String column[]= {"ID","NAME","SALARY"};
+    JTable jt= new JTable(data,column);
+    jt.setBounds(30,40,200,300);
+    JScrollPane sp=new JScrollPane(jt);
+    f.add(sp);
+    f.setSize(300,400);
+    f.setVisible(true);
+    }
+    }
+class Subjects
+{
+    JFrame f;
+    Subjects(){
+        f = new JFrame();
+        String data[][]= { {"101","Calculus"},
+            {"102","FOA"},
+             {"101","Java"}};
+    String column[]= {"ID","NAME"};
+    JTable jt= new JTable(data,column);
+    jt.setBounds(30,40,200,300);
+    JScrollPane sp=new JScrollPane(jt);
+    f.add(sp);
+    f.setSize(300,400);
+    f.setVisible(true);
+    }
+    }
+
+public class Prac2 implements ActionListener{
+    JFrame f;
+    JMenuBar mb;
+    JMenu Teachers,Students,Help;
+    JMenuItem Subjects,SQualifications,StudentDetails;
+    Prac2()
+    {
+        f= new JFrame();
+        mb= new JMenuBar();
+        Teachers= new JMenu("Teachers");
+        Students=new JMenu("Students");
+        Help= new JMenu("Help");
+        Subjects = new JMenuItem("Subjects");
+        SQualifications= new JMenuItem("SQualifications");
+        StudentDetails = new JMenuItem("StudentDetails");
+        Students.add(Subjects);
+        Students.add(SQualifications);
+        Students.add(StudentDetails);
+        mb.add(Teachers);
+        mb.add(Students);
+        mb.add(Help);
+        f.add(mb);
+        f.setJMenuBar(mb);
+        Subjects.addActionListener(this);
+        SQualifications.addActionListener(this);
+        StudentDetails.addActionListener(this);
+        f.setLayout(null);
+        f.setSize(400,400);
+        f.setVisible(true);
+    }
+public void actionPerformed(ActionEvent e)
+{
+if(e.getSource()==Subjects)
+new Subjects();
+if(e.getSource()==SQualifications)
+new SQualifications();
+if(e.getSource()==StudentDetails)
+new StudentDetails();
+}
+public static void main(String[] args) {
+        new Prac2();
+        
+    }
+}
+
+
+//Practical 3: 
+Aim: Write a java program to demonstrate Swing with JDBC performing 
+database operations. 
+Code: 
+#Create a java application and in xampp mysql create a database named test having studentdetails table in it with columns as
+rollno,sname,addr,telno also import the jar file in libraries for this#
+package prac3;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.sql.*;
+
+
+
+
+public class Prac3 extends JFrame implements ActionListener
+{
+    JTextField t1,t2,t3,t4;
+    JButton b1,b2,b3;
+    Container c;
+    JLabel l1,l2,l3,l4;
+
+public  Prac3() {
+    c=getContentPane();
+    c.setLayout(new FlowLayout());
+    l1=new JLabel("Roll No");
+    l2=new JLabel("Student Name");
+    l3=new JLabel("Address");
+    l4=new JLabel("Telephone No");
+    t1=new JTextField(10);
+    t2=new JTextField(10);
+    t3=new JTextField(10);
+    t4=new JTextField(10);
+    b1=new JButton("Insert");
+    b2=new JButton("Show all");
+    b3=new JButton("Update");
+    
+    c.add(l1);
+    c.add(t1);
+    c.add(l2);
+    c.add(t2);
+    c.add(l3);
+    c.add(t3);
+    c.add(l4);
+    c.add(t4);
+    c.add(b1);
+    c.add(b2);
+    c.add(b3);
+    b1.addActionListener(this);
+    b2.addActionListener(this);
+    b3.addActionListener(this);
+    
+    
+    
+
+}
+
+public void actionPerformed(ActionEvent ae)
+{
+Connection con;
+Statement st;
+try
+{
+Class.forName("com.mysql.jdbc.Driver");
+con=DriverManager.getConnection("jdbc:mysql://localhost/test","root","");
+st=con.createStatement();
+String rollno="",sname="",addr="",telno="";
+rollno=t1.getText();
+sname=t2.getText();
+addr=t3.getText();
+telno=t4.getText();
+
+if(ae.getSource()==b1);
+{
+st.executeUpdate("insert into studentdetails values('"+rollno+"','"+sname+"','"+addr+"','"+telno+"')");
+System.out.println("Record inserted");
+t1.setText("");
+t2.setText("");
+t3.setText("");
+t4.setText("");
+t1.requestFocus();
+}
+if (ae.getSource()==b2)
+{
+ResultSet rs=st.executeQuery("Select * from studentdetails");
+while(rs.next())
+{
+  System.out.println("Rollno:"+rs.getString(1)+ "Student Name:"+rs.getString(2)+"Address:"+rs.getString(3)+"Telphone No:"+rs.getString(4));
+  
+}
+}
+if (ae.getSource()==b3){
+String sql1="update studentdetails set sname=? where rollno=?";
+PreparedStatement pre=con.prepareStatement(sql1);
+pre.setString(1,"HarryPotter");
+pre.setString(2,"50");
+int rowInserted=pre.executeUpdate();
+if(rowInserted > 0){
+     System.out.println("A record is updated");
+
+
+}
+
+
+
+}
+}
+
+
+catch(Exception e)
+{
+ System.out.println(e);
+ e.printStackTrace();
+}
+}
+    public static void main(String[] args) {
+    Prac3 m=new Prac3();
+    m.setSize(500,500);
+    m.setVisible(true);
+        
+    }
+    
+}
+
+//Practical 4a: 
+Aim: Write a java Servlet program for sum and product two numbers. 
+Code: 
+#Create a java web application and within source package create a serverpage with name Practical4a.java and in libraries add the glassfish server.
+1]index.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="Practical4a">
+            <label>First number</label> <input type="text" name="num1"/> <br/> <br/>
+            <label>Second number</label> <input type="text" name="num2"/> <br/> <br/>
+            <button type="submit" name="Calculate"> Product and Sum </button> <br/>
+            
+        </form>
+    </body>
+</html>
+2]Practical4a.java  =Servlet file
+
+package Prac4a;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class Practical4a extends HttpServlet {
+    public void service(HttpServletRequest request,HttpServletResponse response)throws IOException
+    {
+        int num1=Integer.parseInt(request.getParameter("num1"));
+        int num2=Integer.parseInt(request.getParameter("num2"));
+        int sum=num1+num2;
+        int product = num1*num2;
+        PrintWriter output= response.getWriter();
+        output.println("The sum:" +sum);
+        output.println("\nThe Product:" +product);
+        
+    }
+
+}
+
+//Practical 4b: 
+Aim: calculate Net salary 
+Code:
+#same as 4a. 
+1]Index.html 
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="Practical4b">
+            <label>Basic salaray of Employee:</label>
+            <input type="text" name="num1"><br/><br/>
+            <button type="submit" name="Calculate">Calculate net salary</button><br/>
+        </form>
+    </body>
+</html>
+2]Practical4b.java = server file
+package Prac4b;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class Practical4b extends HttpServlet {
+public void service(HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+        double num1=Double.parseDouble(request.getParameter("num1"));
+        double hra=0.10*num1;
+        double da=0.08*num1;
+        double grossSalary= num1+hra+da;
+        double tax= 0.05*grossSalary;
+        double netSalary= grossSalary-tax;
+        PrintWriter op= response.getWriter();
+        op.println("The net salary:" +netSalary);
+        
+    }
+
+}
+
+//Practical 5a: 
+Aim: write a java application to demonstrate Servlet life cycle. 
+Code: 
+#Create a java web application  and within source package create a serverpage with name Practical5a.java and in libraries add the glassfish server.
+1]index.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="Practical5a" method="get">
+            <input type="submit" value ="Make request"/>
+        </form>
+    </body>
+</html>
+2]Practical5a.java = servlet file
+package practical5a;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class Practical5a extends HttpServlet {
+    private String output;
+    
+    public void init(ServletConfig config)throws ServletException
+    {
+        System.out.println("Am from Init method...!");
+        output= "Advance Java Concept";
+    }
+    public void doGet(HttpServletRequest req,HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        resp.setContentType("text/html");
+        PrintWriter out= resp.getWriter();
+        out.println(output);
+    }
+    public void destroy()
+    {
+        System.out.println("Over");
+    }
+} 
+    
+//Practical 5b: 
+Aim:Write a java application to demonstrate Servlet Communication. 
+Code: 
+#Create a java web application and within source apckage create 2 servlet class files Practical5b.java and FinalServlet.java.
+1]index.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="Practical5b" method="post">
+            Name:<input type="text" name="uname" width="20"/>
+            Password:<input type="password" name="pass" width="20"/>
+            <input type="submit" name="submit" value="Login"/>
+            
+        </form>
+    </body>
+</html>
+
+2]Practical5b.java
+package practical5b;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class Practical5b extends HttpServlet {
+    public void doPost(HttpServletRequest req,HttpServletResponse resp)
+            throws ServletException, IOException 
+ {
+  String uname=req.getParameter("uname");
+  String pass=req.getParameter("pass");
+  getServletContext().getRequestDispatcher("/FinalServlet").forward(req, resp);
+ }
+
+}
+3]FinalServlet.java
+package practical5b;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class FinalServlet extends HttpServlet {
+    public void doPost(HttpServletRequest req,HttpServletResponse res)
+        throws ServletException, IOException 
+ {
+  String uname=req.getParameter("uname");
+  String pass=req.getParameter("pass");
+  
+  PrintWriter pw=res.getWriter();
+  pw.println("<h1>Your username is  "+uname+"</h1>");
+   pw.println("<h1>Your password is  "+pass+"</h1>");
+    
+}
+}
+
+//Practical 6: 
+Aim: Design database for user administration. Develop servlet to perform 
+CRUD operations. 
+Code: 
+#Create a javaweb application and within source package create a Servlet file Practical6.java and create a databasenamed 'demo' in xampp within a table named 'users'
+with columns userName,userEmail,userPass,userCountry.
+1]Practical6.java 
+package Practical6;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.*;
+
+public class Practical6 extends HttpServlet {
+    public void doPost(HttpServletRequest req,HttpServletResponse res)throws ServletException, IOException{
+        res.setContentType("text/html");
+        String n=req.getParameter("userName");
+        String e=req.getParameter("userEmail");
+        String p=req.getParameter("userPass");
+        String c=req.getParameter("userCountry");
+        PrintWriter out=res.getWriter();
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost/demo","root","");
+            PreparedStatement ps=con.prepareStatement("insert into users values(?,?,?,?)");
+            ps.setString(1,n);
+            ps.setString(2,e);
+            ps.setString(3,p);
+            ps.setString(4,c);
+            int i =ps.executeUpdate();
+            if(i>0)
+                out.print("You are successfully registered");
+        }
+        catch(Exception e2)
+        {
+         System.out.println("e2");
+        }
+
+   out.close();
+}
+}
+
+2]index.html
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="Practical6" method="post">
+            Name:<input type="text" name="userName"><br/><br/>
+            Email:<input type="text" name="userEmail"><br/><br/>
+            Password:<input type="text" name="userPass"><br/><br/>
+            Country:<select name="userCountry">
+                <option>India</option>
+                <option>Pakistan</option>
+                <option>Australia</option>
+                <option>Other</option>
+            </select> <br/> <br/>
+            <input type="submit" value="Register"/>
+            
+        </form>
+    </body>
+</html>
+
+//Practical 7: 
+Aim: Create Employees table in EMP database. Perform select, insert, 
+update, and delete operations on Employee table using JSP.
+Code: here no index.html needed
+#Create a javawebapplication and wihin web pages folder create a jsp file as Practical7.jsp and create a database named 'demo' and with a table 'employees'
+with colums as emp_id as int,emp_Name,emp_Designation,emp_Age as int,emp_Salary as int in xampp.
+1]Practical7.jsp 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.io.*,java.util.*,java.sql.*"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>INSERT OPERATIONS</title>
+</head>
+<body>
+    <sql:setDataSource var="jspdbc" driver="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost/demo"
+        user="root" password=""/>
+    
+    <sql:update dataSource="${jspdbc}" var="result">
+        INSERT INTO employees VALUES('10','Benjamin','Android Developer','21','100000');
+    </sql:update>
+    
+    <c:set var="empId" value="3"/>
+    
+    <sql:update dataSource="${jspdbc}" var="del">
+        DELETE FROM employees WHERE emp_id=?;
+        <sql:param value="${empId}"/>
+    </sql:update>
+    
+    <sql:query dataSource="${jspdbc}" var="result">
+        SELECT * FROM employees;
+    </sql:query>
+    
+    <table border="1" width="100%">
+        <tr>
+            <th>Emp ID</th>
+            <th>Emp Name</th>
+            <th>Emp Designation</th>
+            <th>Emp Age</th>
+            <th>Emp Salary</th>
+        </tr>
+        
+        <c:forEach var="row" items="${result.rows}">
+            <tr>
+                <td><c:out value="${row.emp_id}"/></td>
+                <td><c:out value="${row.emp_Name}"/></td>
+                <td><c:out value="${row.emp_Designation}"/></td>
+                <td><c:out value="${row.emp_Age}"/></td>
+                <td><c:out value="${row.emp_Salary}"/></td>
+            </tr>
+        </c:forEach>
+    </table>
+</body>
+</html>
+
+//Practical 8: 
+Aim: Write a Student class with three properties(Name, Age, Standard). The 
+useBean action declares a JavaBean for use in a JSP. Write Java application to 
+access JavaBeans Properties.
+Code:
+#Create a web application and within WEB pages folder create a jsp file named Practical8.jsp and within source packages create a java file named as Practical8.java.
+1]Practical8.jsp
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <jsp:useBean class="practical8.Practical8" id="students">
+        <jsp:setProperty name="students" property="firstName" value="Zara"/>
+        <jsp:setProperty name="students" property="lastName" value="Ali"/>
+        <jsp:setProperty name="students" property="age" value="10"/>
+        </jsp:useBean>
+        <p>Student First Name:
+         <jsp:getProperty name="students" property="firstName"/>
+        </p>
+        <p>Student Last Name:
+         <jsp:getProperty name="students" property="lastName"/>
+        </p>
+        <p>Student Age:
+         <jsp:getProperty name="students" property="age"/>
+        </p>
+    </body>
+</html>
+
+2]Practical8.java
+package practical8;
+
+
+public class Practical8 implements java.io.Serializable 
+{
+    private String firstName = null;
+    private String lastName = null;
+    private int age = 0;
+    public Practical8()
+    {
+        
+    }
+    public String getFirstName(){
+        return firstName;
+    }
+    public String getLastName(){
+        return lastName;
+    }
+    public int getAge(){
+        return age;
+    }
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+    public void setAge (int age){
+        this.age = age;
+    }
+    }
+
+//Practical 9: 
+Aim: Write Java application to encoding and decoding JSON in Java.
+Code : 
+#create a simple java application and add json-simple1.1 in libraries folder then create a java file in source packages named as Practical9.java for encoding data
+then by clicking on practical9(the subfolder of source package) inside source package create another java file for decoding named as Practical9b.java.
+1]Practical9.java
+package practical9;
+import java.io.FileNotFoundException; 
+import java.io. PrintWriter; 
+import java.util.LinkedHashMap; 
+import java.util.Map; 
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+
+
+public class Practical9 {
+    public static void main(String[] args) throws FileNotFoundException 
+ { 
+ JSONObject jo = new JSONObject(); 
+ 
+ jo.put("firstname", "John"); 
+ jo.put("lastname", "Smith"); 
+ jo.put("age", 25); 
+ 
+ Map m=new LinkedHashMap (4); 
+ m.put("streetAddress", "21 2nd Street"); 
+ m.put("city", "New York"); 
+ m.put("state", "NY"); 
+ m.put("postalCode", 10021); 
+ 
+ jo.put("address",m); 
+ 
+ JSONArray ja=new JSONArray(); 
+ m=new LinkedHashMap (2); 
+ m.put("type", "home"); 
+ m.put("number", "212-555-1234"); 
+ ja.add(m); 
+ m=new LinkedHashMap(2); 
+ m.put("type", "fax"); 
+ m.put("number", "212-555-1234"); 
+ ja.add(m); 
+ jo.put("phonenumber", ja); 
+ PrintWriter pw = new PrintWriter("JSONExample.json"); 
+ pw.write(jo.toJSONString()); 
+ pw.flush(); 
+ pw.close(); 
+ } 
+
+    
+}
+
+2]Practical9b.java
+package practical9;
+
+import java.io.FileNotFoundException; 
+import java.io.FileReader; 
+import java.io.IOException; 
+import java.util.Iterator; 
+import java.util.Map; 
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*; 
+
+public class Practical9b {
+ public static void main(String args[]) throws Exception { 
+ try { 
+ Object obj = new JSONParser().parse(new FileReader 
+("JSONExample.json")); 
+ JSONObject jo = (JSONObject) obj; 
+ String firstName = (String) jo.get("firstname"); 
+ String lastName = (String) jo.get("lastname"); 
+ System.out.println("First Name: " + firstName); 
+ System.out.println("Last Name: " + lastName); 
+ 
+ long age = (long) jo.get("age"); 
+ System.out.println("Age: " + age); 
+ 
+ Map address = (Map) jo.get("address"); 
+ System.out.println("Address: "); 
+ Iterator<Map.Entry> itrl = address.entrySet().iterator(); 
+ while (itrl.hasNext()) { 
+ Map.Entry pair = itrl.next(); 
+ System.out.println (pair.getKey() + " : " + pair.getValue()); 
+ } 
+ 
+ JSONArray phoneNumbers = (JSONArray) jo.get("phonenumber"); 
+System.out.println("Phone Numbers: "); 
+ Iterator itr2 = phoneNumbers.iterator(); 
+ while (itr2.hasNext()) { 
+ System.out.println(itr2.next()); 
+ } 
+ } catch (FileNotFoundException e) { 
+ System.out.println("File not found: " + e.getMessage()); 
+ } catch (ParseException e) { 
+ System.out.println("Error parsing JSON file: " + e.getMessage()); 
+ } catch (IOException e) { 
+ System.out.println("Error reading file: " + e.getMessage()); 
+ } 
+ } 
+    
+}
