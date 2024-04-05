@@ -555,7 +555,253 @@ Intent(Intent.ACTION_DIAL,Uri.parse("tel:+911234567899"));
  } 
 } 
 
-//Practical7:Write an android application to demonstrate the use of Options Menu, Floating Context Menu 
+//Practical7(mam):Write an android application to demonstrate the use of Options Menu, Floating Context Menu 
+and Contextual Action Bar Menu.
+Code:
+1]activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:visibility="visible"
+ tools:context=".MainActivity">
+ <TextView
+ android:id="@+id/text1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_marginTop="60dp"
+ android:text="Hello World!"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+ <EditText
+ android:id="@+id/editTextText"
+ android:layout_width="247dp"
+ android:layout_height="64dp"
+ android:layout_marginTop="224dp"
+ android:ems="10"
+ android:hint="Enter Something"
+ android:inputType="text"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintHorizontal_bias="0.497"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+ <ImageView
+ android:id="@+id/imageView"
+ android:layout_width="224dp"
+ android:layout_height="139dp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toBottomOf="@+id/text1"
+ app:layout_constraintVertical_bias="0.198"
+ app:srcCompat="@drawable/nun" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+2]optionmenu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/cartid"
+ android:icon="@drawable/ic_cart"
+ android:title="Cart"
+ app:showAsAction="always" />
+ <item
+ android:id="@+id/searchid"
+ android:icon="@drawable/ic_search"
+ android:title="Search"
+ app:showAsAction="always" />
+ <item
+ android:id="@+id/settingid"
+ android:title="Setting" />
+</menu>
+
+3]contextmenu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/editid"
+ android:icon="@drawable/ic_edit"
+ android:title="Edit"
+ app:showAsAction="always" />
+ <item
+ android:id="@+id/shareid"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:icon="@drawable/ic_share"
+ android:title="Share"
+ app:showAsAction="always" />
+ <item
+ android:id="@+id/delid"
+ android:icon="@drawable/ic_delete"
+ android:title="Delete"
+ app:showAsAction="always" />
+</menu>
+
+4]actionbarmenu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/mi1id"
+ android:icon="@drawable/ic_edit"
+ android:title="Edit"
+ app:showAsAction="always" />
+ <item
+ android:id="@+id/mi2id"
+ android:icon="@drawable/ic_delete"
+ android:title="Delete"
+ app:showAsAction="always" />
+</menu>
+
+5]Mainactivity.java
+package com.mld.menudemo;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ TextView t1;
+ EditText ed;
+ ImageView img;
+ private ActionMode actionmode;
+ @SuppressLint("MissingInflatedId")
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ t1=findViewById(R.id.text1);
+ registerForContextMenu(t1);
+ img=findViewById(R.id.imageView);
+ ed=findViewById(R.id.editTextText);
+ ed.setOnLongClickListener(new View.OnLongClickListener() {
+ @Override
+ public boolean onLongClick(View view) {
+ if (actionmode!=null)
+ return false;
+ else{
+
+actionmode=MainActivity.this.startActionMode(actionModeCallback);
+ return true;
+}
+ }
+ });
+ img.setOnLongClickListener(new View.OnLongClickListener() {
+ @Override
+ public boolean onLongClick(View view) {
+ if (actionmode!=null)
+ return false;
+ else{
+
+actionmode=MainActivity.this.startActionMode(actionModeCallback);
+ return true;
+ }
+ }
+ });
+ }
+ public ActionMode.Callback actionModeCallback=new ActionMode.Callback()
+{
+ @Override
+ public boolean onCreateActionMode(ActionMode actionMode, Menu menu)
+{
+ getMenuInflater().inflate(R.menu.actionbar,menu);
+ return true;
+ }
+ @Override
+ public boolean onPrepareActionMode(ActionMode actionMode, Menu
+menu) {
+ return false;
+ }
+ @Override
+ public boolean onActionItemClicked(ActionMode actionMode, MenuItem
+menuItem) {
+ if(menuItem.getItemId()==R.id.mi1id){
+ Toast.makeText(MainActivity.this, "edit selected",
+Toast.LENGTH_SHORT).show();
+ return true;
+ }
+ else if (menuItem.getItemId()==R.id.mi2id) {
+ Toast.makeText(MainActivity.this, "delete selected",
+Toast.LENGTH_SHORT).show();
+ return true;
+ }
+ else
+ return false;
+ }
+ @Override
+ public void onDestroyActionMode(ActionMode actionMode) {
+ actionmode=null;
+ }
+ };
+ @Override
+ public void onCreateContextMenu(ContextMenu menu, View v,
+ContextMenu.ContextMenuInfo menuInfo) {
+ super.onCreateContextMenu(menu, v, menuInfo);
+ getMenuInflater().inflate(R.menu.contextmenu,menu);
+}
+ @Override
+ public boolean onContextItemSelected(@NonNull MenuItem item) {
+ if(item.getItemId()==R.id.editid){
+ Toast.makeText(this, "edit is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else if(item.getItemId()==R.id.shareid){
+ Toast.makeText(this, "share is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else if(item.getItemId()==R.id.delid){
+ Toast.makeText(this, "delete is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else {
+ return super.onContextItemSelected(item);
+ }
+ }
+ @Override
+ public boolean onCreateOptionsMenu(Menu menu) {
+ getMenuInflater().inflate(R.menu.optiionmenu,menu);
+ return true;
+ }
+ @Override
+ public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+ if(item.getItemId()==R.id.cartid){
+ Toast.makeText(this, "cart is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else if(item.getItemId()==R.id.searchid){
+ Toast.makeText(this, "search is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else if(item.getItemId()==R.id.settingid){
+ Toast.makeText(this, "setting is selected",
+Toast.LENGTH_LONG).show();
+ return true;
+ }
+ else{
+ return super.onOptionsItemSelected(item);
+ }
+ }
+}
+
+//Practical7(Sanath):Write an android application to demonstrate the use of Options Menu, Floating Context Menu 
 and Contextual AcƟon Bar Menu.
 Code: #Create a menu folder for this in res folder in then drawable folder under res create 5 image asset of cart,delete,search,edit,share but for this code (bookmark,add). 
 sirf menu 2 k menu items hamein place karne hai(share,edit,delete) and ek textview hello world jiske longclick pe ye display honge,menu1 ka mainactivity k code se hoga.
@@ -1019,3 +1265,181 @@ public class SecondActivity extends AppCompatActivity {
 Toast.LENGTH_LONG).show(); 
  } 
 } 
+
+
+//Practical: to check is palindrome or not
+Code: #Ui mai ek textfield (plaintext)
+1]Activitymain.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="256dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="310dp"
+        android:layout_marginEnd="101dp"
+        android:ems="10"
+        android:hint="Enter a string"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+2]MainActivity.java
+package com.example.stringpalindrome;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    private Button btnCheck;
+    private EditText editTextInput;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        editTextInput = findViewById(R.id.et);
+        btnCheck = findViewById(R.id.btn);
+
+        btnCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String input = editTextInput.getText().toString();
+
+                if (isNumberPalindrome(input)) {
+                    Toast.makeText(MainActivity.this, "'" + input + "' is a palindrome number.", Toast.LENGTH_SHORT).show();
+                } else if (isStringPalindrome(input)) {
+                    Toast.makeText(MainActivity.this, "'" + input + "' is a palindrome string.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "'" + input + "' is neither a palindrome number nor string.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public boolean isStringPalindrome(String str) {
+        String cleanStr = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        int left = 0;
+        int right = cleanStr.length() - 1;
+
+        while (left < right) {
+            if (cleanStr.charAt(left) != cleanStr.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+    public boolean isNumberPalindrome(String str) {
+        // Check if the input string is a valid number
+        if (!str.matches("\\d+")) {
+            return false;
+        }
+
+        int num = Integer.parseInt(str);
+        int originalNum = num;
+        int reversedNum = 0;
+
+        while (num != 0) {
+            int digit = num % 10;
+            reversedNum = reversedNum * 10 + digit;
+            num /= 10;
+        }
+
+        return originalNum == reversedNum;
+    }
+}
+
+//Practical to create a alertdialog
+Code:
+1]activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/show_alert_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Alert Dialog"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+2]MainActivity.java
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button showAlertButton = findViewById(R.id.show_alert_button);
+        showAlertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an AlertDialog.Builder instance
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                // Set the title and message for the dialog
+                builder.setTitle("Alert Dialog")
+                        .setMessage("This is a simple alert dialog box.");
+
+                // Add a button to dismiss the dialog
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss(); // Dismiss the dialog when the button is clicked
+                    }
+                });
+
+                // Create and show the dialog
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+    }
+}
